@@ -45,6 +45,8 @@ On Linux, by default, R will link to a generic `libblas` and `liblapack`. On Deb
 ```shell
 sudo update-alternatives --config libblas.so-x86_64-linux-gnu
 sudo update-alternatives --config liblapack.so-x86_64-linux-gnu
+sudo update-alternatives --config libblas.so.3-x86_64-linux-gnu # used by R 4.x
+sudo update-alternatives --config liblapack.so.3-x86_64-linux-gnu # used by R 4.x
 ```
 
 If oneMKL is installed through means other than APT, one might first need to [source its environment script](https://www.intel.com/content/www/us/en/docs/onemkl/developer-guide-linux/2026-0/setting-environment-variables.html#SETTING-ENVIRONMENT-VARIABLES) **before** executing the commands above:
@@ -128,7 +130,10 @@ export MKL_THREADING_LAYER=GNU
 
 **Importantly:** this environment variable needs to be set **before** R is started, otherwise it will have no effect.
 
-On Linux, this can be achieved by defining it in a file such as `/etc/profile`.
+On Linux, this can be achieved by defining it in a file such as `/etc/environment`:
+```shell
+printf "MKL_THREADING_LAYER=GNU\n" | sudo tee -a /etc/environment
+```
 
 On Windows, it can be configured as a user environment variable through the control panel.
 
