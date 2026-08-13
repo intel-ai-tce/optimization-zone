@@ -40,19 +40,37 @@ It is highly recommended to use Intel's [oneMKL](https://www.intel.com/content/w
 
 ##### Linux
 
-On Linux, by default, R will link to a generic `libblas` and `liblapack`. On Debian-based systems, the vendor version behind those can be controlled through the [Debian alternatives system](https://wiki.debian.org/DebianAlternatives). To set oneMKL as the system provider for `libblas` and `liblapack`, after installing it through [Intel's APT packages](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html?operatingsystem=linux&linux-install=apt), execute the following commands and choose oneMKL (`libmkl_rt.so`) as provider:
+On Linux, by default, R will link to a generic `libblas` and `liblapack`. On **Debian**-based systems (including derivatives such as Ubuntu and Mint), the vendor version behind those can be controlled through the [Debian alternatives system](https://wiki.debian.org/DebianAlternatives). OneMKL can be set as the system provider for `libblas` and `liblapack` after installing it through [Intel's APT packages](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html?operatingsystem=linux&linux-install=apt):
 
+* To install MKL:
 ```shell
-sudo update-alternatives --config libblas.so-x86_64-linux-gnu
-sudo update-alternatives --config liblapack.so-x86_64-linux-gnu
-sudo update-alternatives --config libblas.so.3-x86_64-linux-gnu # used by R 4.x
-sudo update-alternatives --config liblapack.so.3-x86_64-linux-gnu # used by R 4.x
+sudo apt install -y gpg-agent wget # prerequisites
+wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+sudo apt update
+sudo apt install intel-oneapi-mkl
 ```
 
-If oneMKL is installed through means other than APT, one might first need to [source its environment script](https://www.intel.com/content/www/us/en/docs/onemkl/developer-guide-linux/2026-0/setting-environment-variables.html#SETTING-ENVIRONMENT-VARIABLES) **before** executing the commands above:
-
+* To add oneMKL's paths to system library loading paths, assuming version 2026.0 (not needed if one [sources the environment script](https://www.intel.com/content/www/us/en/docs/onemkl/developer-guide-linux/2026-0/setting-environment-variables.html#SETTING-ENVIRONMENT-VARIABLES) before launching R):
 ```shell
-source /opt/intel/oneapi/setvars.sh
+printf "/opt/intel/oneapi/2026.0/lib/\n/opt/intel/oneapi/mkl/latest/lib/\n" | sudo tee /etc/ld.so.conf.d/intel-oneapi-mkl.conf
+sudo ldconfig
+```
+
+* To register oneMKL as a selectable system provider for BLAS and LAPACK:
+```shell
+sudo update-alternatives --install /usr/lib/x86_64-linux-gnu/libblas.so libblas.so-x86_64-linux-gnu /opt/intel/oneapi/mkl/latest/lib/libmkl_rt.so 1 && \
+sudo update-alternatives --install /usr/lib/x86_64-linux-gnu/liblapack.so liblapack.so-x86_64-linux-gnu /opt/intel/oneapi/mkl/latest/lib/libmkl_rt.so 1 && \
+sudo update-alternatives --install /usr/lib/x86_64-linux-gnu/libblas.so.3 libblas.so.3-x86_64-linux-gnu /opt/intel/oneapi/mkl/latest/lib/libmkl_rt.so 1 && \
+sudo update-alternatives --install /usr/lib/x86_64-linux-gnu/liblapack.so.3 liblapack.so.3-x86_64-linux-gnu /opt/intel/oneapi/mkl/latest/lib/libmkl_rt.so 1
+```
+
+* To set oneMKL as the system provider for BLAS and LAPACK:
+```shell
+sudo update-alternatives --set libblas.so-x86_64-linux-gnu /opt/intel/oneapi/mkl/latest/lib/libmkl_rt.so && \
+sudo update-alternatives --set liblapack.so-x86_64-linux-gnu /opt/intel/oneapi/mkl/latest/lib/libmkl_rt.so && \
+sudo update-alternatives --set libblas.so.3-x86_64-linux-gnu /opt/intel/oneapi/mkl/latest/lib/libmkl_rt.so && \
+sudo update-alternatives --set liblapack.so.3-x86_64-linux-gnu /opt/intel/oneapi/mkl/latest/lib/libmkl_rt.so
 ```
 
 ##### Windows
