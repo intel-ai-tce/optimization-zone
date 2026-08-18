@@ -4,6 +4,8 @@ Non-Uniform Memory Access (NUMA) is a memory architecture used in modern multi-s
 
 This directory collects best practices, case studies, and performance opportunities for running workloads in NUMA environments. The goal is to help you understand why hardware topology matters, identify configuration mismatches that leave performance on the table, and apply proven, hardware-aware patterns to your deployments.
 
+> **Running in Kubernetes?** The Topology-aware and Balloons policies apply NUMA-aligned placement to every pod automatically. See [NRI Resource-Policy Plugins](../../software/kubernetes/nri-resource-policies/README.md).
+
 Actual improvements will vary depending on a given workload's characteristics. It is recommended to use a profiling solution such as [VTune Profiler](https://github.com/intel/optimization-zone/tree/main/tools/vtune/README.md) to more accurately gauge where an application's hotpaths are and which optimizations would have the greatest effect.
 
 ## What's Inside

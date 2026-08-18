@@ -10,7 +10,7 @@ This repository contains a collection of Intel tuning guides and Intel optimizat
 
 ### 💻 Software Tuning Guides
 
-Comprehensive optimization tuning guides for various software including databases (i.e. Cassandra, MySQL, PostgreSQL), data processing frameworks (i.e. Spark, Gluten), and programming languages (i.e. Java), covering configuration tuning, memory management, and best practices for Intel architectures.
+Comprehensive optimization tuning guides for various software including databases (i.e. Cassandra, MySQL, PostgreSQL), data processing frameworks (i.e. Spark, Gluten), container orchestration (Kubernetes), and programming languages (i.e. Java), covering configuration tuning, memory management, and best practices for Intel architectures.
 
 ### 🔧 Workloads & Benchmarks
 
@@ -38,6 +38,8 @@ We aim to provide a dynamic resource where users can find the latest optimizatio
   - [Gluten](software/gluten/README.md)
   - [Java](software/java/README.md)
   - [Kafka](software/kafka/README.md)
+  - [Kubernetes](software/kubernetes/README.md)
+    - [NRI Resource-Policy Plugins](software/kubernetes/nri-resource-policies/README.md)
   - [MySQL & PostgreSQL](software/mysql-postgresql/README.md)
   - [NumPy](software/numpy/README.md)
   - [R (Rlang / Rstats)](software/R/README.md)
