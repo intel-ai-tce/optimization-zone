@@ -320,7 +320,7 @@ When it comes to small data and short operations (e.g. reordering columns, summi
 ```r
 library(data.table)
 df <- data.frame(a=c(1,2), b=c(3,4))
-# to convert from base R to data.tbale:
+# to convert from base R to data.table:
 setDT(df)
 # can also do it by copying: dt <- as.data.table(df)
 # whereas 'setDT' modifies the object in-place
